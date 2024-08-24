@@ -34,7 +34,7 @@ describe("getOrCreateConfig", () => {
   });
 
   it("should retrieve a config file if it can be found", async () => {
-    const result = await getOrCreateConfig();
+    const result = await getOrCreateConfig("/Users/username");
 
     expect(result).not.toBeNull();
     expect(result.created).toBeFalsy();
@@ -49,7 +49,7 @@ describe("getOrCreateConfig", () => {
       .spyOn(FileUtils, "createFileAndWriteContent")
       .mockImplementation(jest.fn());
 
-    const result = await getOrCreateConfig();
+    const result = await getOrCreateConfig("/Users/username");
 
     expect(result).not.toBeNull();
     expect(result.created).toBeTruthy();
@@ -69,7 +69,7 @@ describe("getOrCreateConfig", () => {
 
     expect.assertions(1);
     try {
-      await getOrCreateConfig();
+      await getOrCreateConfig("/Users/username");
     } catch (e: any) {
       expect(e.message).toBe("Error creating or writing a file");
     }

@@ -9,14 +9,16 @@ import {
 
 /**
  * Creates all directories and files using the provided options
+ * @param currentFolderPath The current context path to the folder
  * @param options The options for the files and folders creation
  */
 export const createAllDirectoriesAndFilesFromTemplate = async (
+  currentFolderPath: string,
   options: Options
 ): Promise<void> => {
-  const templatePath = createPath(options.templatePath);
+  const templatePath = createPath(options.templatePath, currentFolderPath);
 
-  const dirPath = createPath(options.dirPath);
+  const dirPath = createPath(options.dirPath, currentFolderPath);
   const fileName = options.fileName;
 
   await createDirectory(dirPath);

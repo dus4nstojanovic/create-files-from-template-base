@@ -5,16 +5,18 @@ import { Config, CONFIG_FILE_NAME } from ".";
 
 /**
  * Searches for the configuration file. If the file isn't found, searches in the parent directory
+ * @param currentFolderPath The current context path to the folder
  * @param pathArg The path of the configuration file
  * @param previousPath The previous (parent) path
  * @returns The parsed configuration file (used in the recursion)
  */
 export const findConfig = async (
+  currentFolderPath: string,
   pathArg = ".",
   previousPath?: string
 ): Promise<Config> => {
-  const searchPath = path.join(process.cwd(), pathArg, CONFIG_FILE_NAME);
-  const folderPath = resolve(path.join(process.cwd(), pathArg));
+  const searchPath = path.join(currentFolderPath, pathArg, CONFIG_FILE_NAME);
+  const folderPath = resolve(path.join(currentFolderPath, pathArg));
   const currentPath = resolve(searchPath);
 
   if (currentPath === previousPath) return null as any;
@@ -30,7 +32,11 @@ export const findConfig = async (
 
     return config;
   } catch (error) {
-    return await findConfig(path.join(pathArg, ".."), currentPath);
+    return await findConfig(
+      currentFolderPath,
+      path.join(pathArg, ".."),
+      currentPath
+    );
   }
 };
 

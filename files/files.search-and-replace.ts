@@ -10,7 +10,7 @@ import {
 import { Options } from "../options";
 
 /**
-Creates SearchAndReplaceItem[] array from the textToBeReplaced, replaceTextWith and other search and replace items, sortihing them by orders
+Creates SearchAndReplaceItem[] array from the textToBeReplaced, replaceTextWith and other search and replace items, sorting them by orders
 @returns The SearchAndReplaceItem array.
 */
 export const createSearchAndReplaceItemsFromArgs = ({

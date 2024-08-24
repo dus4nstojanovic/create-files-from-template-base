@@ -26,14 +26,13 @@ describe("findConfig", () => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
 
-    jest.spyOn(process, "cwd").mockImplementation(() => "/Users/username");
     jest.spyOn(fs, "readFile").mockImplementation((path, callback: any) => {
       callback(null, FILE);
     });
   });
 
   it("should find the config correctly", async () => {
-    const result = await findConfig();
+    const result = await findConfig("/Users/username");
 
     expect(result).toEqual({
       ...JSON.parse(FILE),
@@ -51,7 +50,7 @@ describe("findConfig", () => {
       }
     });
 
-    const result = await findConfig();
+    const result = await findConfig("/Users/username");
 
     expect(result).toEqual({
       ...JSON.parse(FILE),
@@ -65,7 +64,7 @@ describe("findConfig", () => {
       callback(new Error("File not found"));
     });
 
-    const result = await findConfig();
+    const result = await findConfig("/Users/username");
 
     expect(result).toBeNull();
   });

@@ -6,13 +6,16 @@ import Logger from "../logger";
 
 /**
  * Parses the existing cfft.config.json configuration or creates it if it doesn't exist
+ * @param currentFolderPath The current context path to the folder
  * @returns The parsed configuration configuration object
  */
-export const getOrCreateConfig = async (): Promise<{
+export const getOrCreateConfig = async (
+  currentFolderPath: string
+): Promise<{
   config: Config;
   created: boolean;
 }> => {
-  const config = await findConfig();
+  const config = await findConfig(currentFolderPath);
 
   if (!config) {
     try {
@@ -31,7 +34,7 @@ export const getOrCreateConfig = async (): Promise<{
         )}'`
       );
 
-      return { config: await findConfig(), created: true };
+      return { config: await findConfig(currentFolderPath), created: true };
     } catch (e) {
       Logger.error("Error creating config file");
       throw e;

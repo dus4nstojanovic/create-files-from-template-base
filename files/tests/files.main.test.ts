@@ -50,11 +50,19 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
   });
 
   it("should createAllDirectoriesAndFilesFromTemplate execute without errors", async () => {
-    await createAllDirectoriesAndFilesFromTemplate({ ...args });
+    await createAllDirectoriesAndFilesFromTemplate(args.dirPath, { ...args });
 
-    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(1, args.templatePath);
+    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(
+      1,
+      args.templatePath,
+      args.dirPath
+    );
     expect(FilesUtils.isDirectory).toHaveBeenCalledWith(args.templatePath);
-    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(2, args.dirPath);
+    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(
+      2,
+      args.dirPath,
+      args.dirPath
+    );
     expect(FilesUtils.createDirectory).toHaveBeenCalledWith(args.dirPath);
     expect(
       FilesUtils.createFileOrDirectoryFromTemplate
