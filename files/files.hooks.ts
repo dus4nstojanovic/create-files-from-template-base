@@ -38,6 +38,7 @@ export const onFileCreatedHook = ({
     } else {
     }
   } catch (e) {
-    Logger.error("Error executing onFileCreated hook", e);
+    Logger.error("Error executing onFileCreated hook");
+    Logger.error(e);
   }
 };

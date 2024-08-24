@@ -123,7 +123,7 @@ const createDirectoryFromTemplate = async (args: Options): Promise<void> => {
 
   await createDirectory(filePath);
 
-  Logger.info("Inner directory created:", filePath);
+  Logger.info(`Inner directory created: ${filePath}`);
 
   const templateFilesPaths = await getInnerDirectoriesAndFilesPaths(
     templatePath
