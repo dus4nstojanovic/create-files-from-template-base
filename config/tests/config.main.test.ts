@@ -1,4 +1,4 @@
-import { Config } from "./../config.constants";
+import { Config } from "../config.constants";
 import { getOrCreateConfig, getTemplateFromConfig } from "../config.main";
 import * as ConfigUtils from "../config.utils";
 import * as FileUtils from "../../files/files.utils";
