@@ -1,0 +1,47 @@
+{
+  "name": "create-files-from-template-base",
+  "version": "1.5.1",
+  "description": "CFFT Base is a robust core library that provides all essential functions and utilities required for CFFT apps to work.",
+  "scripts": {
+    "copy-readme": "node _scripts/copy-readme",
+    "test": "env APP_ENV=test jest --runInBand",
+    "test:watch": "env APP_ENV=test jest --watch --runInBand",
+    "build": "node esbuild && npm run copy-readme"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dus4nstojanovic/create-files-cli.git"
+  },
+  "keywords": [
+    "core",
+    "generate",
+    "create",
+    "files",
+    "template",
+    "templates",
+    "scaffolding",
+    "bootstrap",
+    "boilerplate",
+    "skeleton",
+    "replace",
+    "search"
+  ],
+  "author": "Dusan Stojanovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dus4nstojanovic/create-files-cli/issues"
+  },
+  "homepage": "https://github.com/dus4nstojanovic/create-files-cli#readme",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/jest": "^29.5.0",
+    "esbuild": "^0.17.17",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "date-fns": "^2.30.0",
+    "inquirer": "^9.1.5"
+  }
+}
