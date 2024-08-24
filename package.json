@@ -3,10 +3,8 @@
   "version": "1.5.1",
   "description": "CFFT Base is a robust core library that provides all essential functions and utilities required for CFFT apps to work.",
   "scripts": {
-    "copy-readme": "node _scripts/copy-readme",
     "test": "env APP_ENV=test jest --runInBand",
-    "test:watch": "env APP_ENV=test jest --watch --runInBand",
-    "build": "node esbuild && npm run copy-readme"
+    "test:watch": "env APP_ENV=test jest --watch --runInBand"
   },
   "repository": {
     "type": "git",
