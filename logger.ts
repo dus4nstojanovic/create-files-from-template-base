@@ -1,21 +1,40 @@
-const chalk = require("chalk");
+export class Logger {
+  private static green = (...message: any[]) => message;
+  private static yellow = (...message: any[]) => message;
+  private static blue = (...message: any[]) => message;
+  private static red = (...message: any[]) => message;
 
-const log = (...message: any[]) => write(...message);
+  static overrideLoggerSeverity: (
+    green: (...message: any[]) => any[],
+    yellow: (...message: any[]) => any[],
+    blue: (...message: any[]) => any[],
+    red: (...message: any[]) => any[]
+  ) => void = (green, yellow, blue, red) => {
+    Logger.green = green;
+    Logger.yellow = yellow;
+    Logger.blue = blue;
+    Logger.red = red;
+  };
 
-const success = (...message: any[]) => write(chalk.green(...message));
+  static log = (...message: any[]) => Logger.write(...message);
 
-const warning = (...message: any[]) => write(chalk.yellow(...message));
+  static success = (...message: any[]) =>
+    Logger.write(Logger.green(...message));
 
-const info = (...message: any[]) => write(chalk.blue(...message));
+  static warning = (...message: any[]) =>
+    Logger.write(Logger.yellow(...message));
 
-const error = (...message: any[]) => write(chalk.red(...message));
+  static info = (...message: any[]) => Logger.write(Logger.blue(...message));
 
-const write = (...message: any[]): void => {
-  const shouldWrite = process.env.APP_ENV !== "test";
+  static error = (...message: any[]) => Logger.write(Logger.red(...message));
 
-  if (shouldWrite) {
-    console.log(...message);
-  }
-};
+  static write = (...message: any[]): void => {
+    const shouldWrite = process.env.APP_ENV !== "test";
 
-export default { success, warning, info, error, log };
+    if (shouldWrite) {
+      console.log(...message);
+    }
+  };
+}
+
+export default Logger;
