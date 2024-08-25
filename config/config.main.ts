@@ -35,6 +35,12 @@ export const getOrCreateConfig = async ({
         JSON.stringify(DEFAULT_CONFIG, undefined, 2)
       );
 
+      Logger.success(
+        `⚙️  ${CONFIG_FILE_NAME} config file has been created: '${path.resolve(
+          "."
+        )}'`
+      );
+
       const cfftTemplatesFolderPath = path.join(
         cfftFolderPath,
         DEFAULT_CONFIG.templates[0].options.templatePath as string
@@ -55,9 +61,7 @@ export const getOrCreateConfig = async ({
       );
 
       Logger.success(
-        `⚙️  ${CONFIG_FILE_NAME} config file has been created: '${path.resolve(
-          "."
-        )}'`
+        `⚙️  .cfft.templates directory has been created: '${path.resolve(".")}'`
       );
 
       return { config: await findConfig(currentFolderPath), created: true };
