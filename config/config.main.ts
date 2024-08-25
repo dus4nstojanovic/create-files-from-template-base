@@ -54,6 +54,12 @@ export const getOrCreateConfig = async ({
         DEMO_INFO.styles.content
       );
 
+      Logger.success(
+        `⚙️  ${CONFIG_FILE_NAME} config file has been created: '${path.resolve(
+          "."
+        )}'`
+      );
+
       return { config: await findConfig(currentFolderPath), created: true };
     } catch (e) {
       Logger.error("Error creating config file");
