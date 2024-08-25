@@ -43,6 +43,8 @@ export const findConfig = async (
 export const validateConfig = (config: Config) => {
   let errorMessage = `Invalid ${CONFIG_FILE_NAME}: `;
 
+  if (!config.templates) return;
+
   for (const template of config.templates) {
     if (!template.name) {
       throw new Error(`${errorMessage} Template name is required`);
