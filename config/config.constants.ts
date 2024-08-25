@@ -46,3 +46,25 @@ export const DEFAULT_CONFIG: Omit<Config, "path" | "folder"> = {
     },
   ],
 };
+
+export const DEMO_INFO = {
+  component: {
+    name: "component.tsx",
+    content: `import { FC } from 'react';
+import styles from './FileName.module.scss';
+
+const FileName: FC = () => {
+  return <div className={styles.root}>FileName</div>;
+};
+
+export default FileName;
+`,
+  },
+  styles: {
+    name: "component.module.scss",
+    content: `.root {
+  display: block;
+}
+`,
+  },
+};

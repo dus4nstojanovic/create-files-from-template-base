@@ -1,16 +1,27 @@
 import { TemplateConfig } from "./config.constants";
-import { Config, CONFIG_FILE_NAME, DEFAULT_CONFIG, findConfig } from ".";
-import { createFileAndWriteContent } from "../files";
+import {
+  Config,
+  CONFIG_FILE_NAME,
+  DEFAULT_CONFIG,
+  DEMO_INFO,
+  findConfig,
+} from ".";
+import { createDirectory, createFileAndWriteContent } from "../files";
 import Logger from "../logger";
+import path from "path";
 
 /**
  * Parses the existing cfft.config.json configuration or creates it if it doesn't exist
  * @param currentFolderPath The current context path to the folder
  * @returns The parsed configuration configuration object
  */
-export const getOrCreateConfig = async (
-  currentFolderPath: string
-): Promise<{
+export const getOrCreateConfig = async ({
+  currentFolderPath,
+  cfftFolderPath = currentFolderPath,
+}: {
+  currentFolderPath: string;
+  cfftFolderPath?: string;
+}): Promise<{
   config: Config;
   created: boolean;
 }> => {
@@ -18,9 +29,29 @@ export const getOrCreateConfig = async (
 
   if (!config) {
     try {
+      const cfftPath = path.join(cfftFolderPath, CONFIG_FILE_NAME);
       await createFileAndWriteContent(
-        CONFIG_FILE_NAME,
+        cfftPath,
         JSON.stringify(DEFAULT_CONFIG, undefined, 2)
+      );
+
+      const cfftTemplatesFolderPath = path.join(
+        cfftFolderPath,
+        DEFAULT_CONFIG.templates[0].options.templatePath as string
+      );
+
+      await createDirectory(cfftTemplatesFolderPath);
+
+      // create demo component.tsx
+      await createFileAndWriteContent(
+        path.join(cfftTemplatesFolderPath, DEMO_INFO.component.name),
+        DEMO_INFO.component.content
+      );
+
+      // create demo component.module.scss
+      await createFileAndWriteContent(
+        path.join(cfftTemplatesFolderPath, DEMO_INFO.styles.name),
+        DEMO_INFO.styles.content
       );
 
       return { config: await findConfig(currentFolderPath), created: true };
