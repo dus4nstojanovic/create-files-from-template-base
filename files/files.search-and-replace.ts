@@ -64,12 +64,10 @@ Replaces file content parts using the provided SearchAndReplace items.
 */
 export const replaceSearchItems = async ({
   searchAndReplaceItems,
-  fileName,
   configDir,
   fileContent,
 }: {
   searchAndReplaceItems: SearchAndReplaceItem[];
-  fileName: string;
   configDir: string;
   fileContent: string;
 }) => {

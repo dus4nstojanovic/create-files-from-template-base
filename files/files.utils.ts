@@ -18,9 +18,9 @@ import { onFileCreatedHook } from "./files.hooks";
  * @returns An absolute path if it starts with ./ or ../, or the relative path if it starts with /
  */
 export const createPath = (pathArg: string, currentFolderPath: string) =>
-  pathArg.startsWith("/")
+  pathArg.startsWith(path.sep)
     ? pathArg
-    : path.join(currentFolderPath, ...pathArg.split("/"));
+    : path.join(currentFolderPath, ...pathArg.split(path.sep));
 
 /**
  * Gets paths of directory's items
@@ -30,7 +30,7 @@ export const createPath = (pathArg: string, currentFolderPath: string) =>
 export const getInnerDirectoriesAndFilesPaths = async (dirPath: string) => {
   try {
     const files = await promisify(fs.readdir)(dirPath);
-    return files.map((file) => `${dirPath}/${file}`);
+    return files.map((file) => `${dirPath}${path.sep}${file}`);
   } catch (e) {
     throw new Error(`Couldn't get files paths from folder: '${dirPath}'`);
   }
@@ -155,7 +155,7 @@ const createFileFromTemplate = async ({
   configDir,
   hooksPath,
 }: Options): Promise<void> => {
-  const { filePath, fileNameUpdated } = createFilePathAndNameFromTemplate({
+  const { filePath } = createFilePathAndNameFromTemplate({
     templatePath,
     shouldReplaceFileName,
     fileNameTextToBeReplaced,
@@ -169,7 +169,6 @@ const createFileFromTemplate = async ({
     replaceTextWith,
     searchAndReplaceSeparator,
     shouldReplaceFileContent,
-    fileName: fileNameUpdated,
     searchAndReplace,
     configDir,
   });
@@ -187,7 +186,6 @@ const getFileContentAndSearchAndReplace = async ({
   replaceTextWith,
   searchAndReplaceSeparator,
   shouldReplaceFileContent,
-  fileName,
   searchAndReplace,
   configDir,
 }: Pick<
@@ -197,7 +195,6 @@ const getFileContentAndSearchAndReplace = async ({
   | "replaceTextWith"
   | "searchAndReplaceSeparator"
   | "shouldReplaceFileContent"
-  | "fileName"
   | "searchAndReplace"
   | "configDir"
 >): Promise<string> => {
@@ -214,7 +211,6 @@ const getFileContentAndSearchAndReplace = async ({
 
   fileContent = await replaceSearchItems({
     searchAndReplaceItems,
-    fileName,
     configDir,
     fileContent,
   });

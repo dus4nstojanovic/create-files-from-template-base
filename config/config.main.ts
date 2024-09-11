@@ -43,7 +43,9 @@ export const getOrCreateConfig = async ({
 
       const cfftTemplatesFolderPath = path.join(
         cfftFolderPath,
-        DEFAULT_CONFIG.templates[0].options.templatePath as string
+        path.normalize(
+          DEFAULT_CONFIG.templates[0].options.templatePath as string
+        )
       );
 
       await createDirectory(cfftTemplatesFolderPath);
@@ -85,3 +87,25 @@ export const getTemplateFromConfig = (
   templateName: string
 ): TemplateConfig | undefined =>
   config.templates?.find((c) => c.name === templateName);
+
+export const normalizeConfigPaths = (config: Config) => {
+  const normalizeIfExists = (value: string | undefined) =>
+    value ? path.normalize(value) : value;
+
+  config?.templates?.forEach((template) => {
+    if (template.options) {
+      template.options.dirPath = normalizeIfExists(template.options.dirPath);
+      template.options.templatePath = normalizeIfExists(
+        template.options.templatePath
+      );
+      template.options.hooksPath = normalizeIfExists(
+        template.options.hooksPath
+      );
+      template.options.configDir = normalizeIfExists(
+        template.options.configDir
+      );
+    }
+  });
+
+  return config;
+};
