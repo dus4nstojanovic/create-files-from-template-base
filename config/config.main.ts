@@ -25,7 +25,7 @@ export const getOrCreateConfig = async ({
   config: Config;
   created: boolean;
 }> => {
-  const config = await findConfig(currentFolderPath);
+  let config = await findConfig(currentFolderPath);
 
   if (!config) {
     try {
@@ -66,12 +66,17 @@ export const getOrCreateConfig = async ({
         `⚙️  .cfft.templates directory has been created: '${path.resolve(".")}'`
       );
 
-      return { config: await findConfig(currentFolderPath), created: true };
+      config = await findConfig(currentFolderPath);
+      config = normalizeConfigPaths(config);
+
+      return { config, created: true };
     } catch (e) {
       Logger.error("Error creating config file");
       throw e;
     }
   }
+
+  config = normalizeConfigPaths(config);
 
   return { config, created: false };
 };

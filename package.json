@@ -1,6 +1,6 @@
 {
   "name": "@beezydev/create-files-from-template-base",
-  "version": "1.5.18",
+  "version": "1.5.19",
   "description": "CFFT Base is a robust core library that provides all essential functions and utilities required for CFFT apps to work.",
   "scripts": {
     "test": "env APP_ENV=test jest --runInBand",
