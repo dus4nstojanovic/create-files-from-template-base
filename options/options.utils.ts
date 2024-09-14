@@ -28,11 +28,13 @@ export const normalizeOptions = (
 
     value = path.normalize(value);
 
-    if (
-      path.isAbsolute(value) &&
-      !path.resolve(value).startsWith(cfftFolderPath) &&
-      cfftFolderPath
-    ) {
+    const isAbsolute = path.isAbsolute(value);
+    const containsRootPath = path
+      .resolve(value)
+      .toLowerCase()
+      .startsWith(cfftFolderPath.toLowerCase());
+
+    if (isAbsolute && !containsRootPath) {
       value = path.join(cfftFolderPath, value);
     }
 
