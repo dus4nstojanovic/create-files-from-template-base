@@ -6,6 +6,7 @@ import {
   getInnerDirectoriesAndFilesPaths,
 } from ".";
 import { normalizeOptions } from "../options/options.utils";
+import path from "path";
 
 /**
  * Creates all directories and files using the provided options
@@ -21,7 +22,8 @@ export const createAllDirectoriesAndFilesFromTemplate = async (
   options = normalizeOptions(options, cfftFolderPath) as Options;
 
   const templatePath = options.templatePath;
-  const dirPath = options.dirPath;
+
+  const dirPath = path.join(options.dirPath, currentFolderPath);
   const fileName = options.fileName;
 
   await createDirectory(dirPath);
