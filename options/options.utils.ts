@@ -30,8 +30,8 @@ export const normalizeOptions = (
 
     if (
       path.isAbsolute(value) &&
-      cfftFolderPath &&
-      value.startsWith(path.sep)
+      !path.resolve(value).startsWith(cfftFolderPath) &&
+      cfftFolderPath
     ) {
       value = path.join(cfftFolderPath, value);
     }
