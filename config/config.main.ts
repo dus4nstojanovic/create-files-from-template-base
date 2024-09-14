@@ -43,9 +43,7 @@ export const getOrCreateConfig = async ({
 
       const cfftTemplatesFolderPath = path.join(
         cfftFolderPath,
-        path.normalize(
-          DEFAULT_CONFIG.templates[0].options.templatePath as string
-        )
+        DEFAULT_CONFIG.templates[0].options.templatePath as string
       );
 
       await createDirectory(cfftTemplatesFolderPath);
@@ -66,17 +64,12 @@ export const getOrCreateConfig = async ({
         `⚙️  .cfft.templates directory has been created: '${path.resolve(".")}'`
       );
 
-      config = await findConfig(currentFolderPath);
-      config = normalizeConfigPaths(config);
-
-      return { config, created: true };
+      return { config: await findConfig(currentFolderPath), created: true };
     } catch (e) {
       Logger.error("Error creating config file");
       throw e;
     }
   }
-
-  config = normalizeConfigPaths(config);
 
   return { config, created: false };
 };
@@ -92,25 +85,3 @@ export const getTemplateFromConfig = (
   templateName: string
 ): TemplateConfig | undefined =>
   config.templates?.find((c) => c.name === templateName);
-
-export const normalizeConfigPaths = (config: Config) => {
-  const normalizeIfExists = (value: string | undefined) =>
-    value ? path.normalize(value) : value;
-
-  config?.templates?.forEach((template) => {
-    if (template.options) {
-      template.options.dirPath = normalizeIfExists(template.options.dirPath);
-      template.options.templatePath = normalizeIfExists(
-        template.options.templatePath
-      );
-      template.options.hooksPath = normalizeIfExists(
-        template.options.hooksPath
-      );
-      template.options.configDir = normalizeIfExists(
-        template.options.configDir
-      );
-    }
-  });
-
-  return config;
-};
