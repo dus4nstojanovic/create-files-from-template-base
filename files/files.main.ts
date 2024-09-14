@@ -23,7 +23,7 @@ export const createAllDirectoriesAndFilesFromTemplate = async (
 
   const templatePath = options.templatePath;
 
-  const dirPath = path.join(options.dirPath, currentFolderPath);
+  const dirPath = path.join(currentFolderPath, options.dirPath);
   const fileName = options.fileName;
 
   await createDirectory(dirPath);
