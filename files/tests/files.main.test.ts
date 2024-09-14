@@ -31,10 +31,6 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
   beforeAll(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
-
-    jest
-      .spyOn(FilesUtils, "createPath")
-      .mockImplementation(jest.fn((path) => path));
     jest
       .spyOn(FilesUtils, "isDirectory")
       .mockImplementation(jest.fn((path) => !path.includes(".js")));
@@ -55,18 +51,7 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
       { ...args },
       ""
     );
-
-    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(
-      1,
-      "template-dir",
-      args.dirPath
-    );
     expect(FilesUtils.isDirectory).toHaveBeenCalledWith("template-dir");
-    expect(FilesUtils.createPath).toHaveBeenNthCalledWith(
-      2,
-      "test-dir",
-      "./test-dir"
-    );
     expect(FilesUtils.createDirectory).toHaveBeenCalledWith("test-dir");
     expect(
       FilesUtils.createFileOrDirectoryFromTemplate

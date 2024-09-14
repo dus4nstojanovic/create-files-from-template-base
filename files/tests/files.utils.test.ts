@@ -3,29 +3,11 @@ import {
   createDirectory,
   createFileAndWriteContent,
   createFileOrDirectoryFromTemplate,
-  createPath,
   getInnerDirectoriesAndFilesPaths,
   isDirectory,
   readFileContent,
 } from "../files.utils";
-import path from "path";
 import fs from "fs";
-
-describe("createPath", () => {
-  it("should return the path as-is if it starts with a forward slash", () => {
-    const pathArg = "/Users/username/my-project";
-
-    expect(createPath(pathArg, "/")).toBe(pathArg);
-  });
-
-  it("should prefix the current working directory to the path if it does not start with a forward slash", () => {
-    const pathArg = "my-project";
-
-    expect(createPath(pathArg, "/Users/username")).toBe(
-      path.join("/Users/username", pathArg)
-    );
-  });
-});
 
 describe("getInnerDirectoriesAndFilesPaths", () => {
   const dirPath = "./test-dir";

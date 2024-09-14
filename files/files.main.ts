@@ -3,7 +3,6 @@ import { Options } from "../options";
 import {
   createDirectory,
   createFileOrDirectoryFromTemplate,
-  createPath,
   getInnerDirectoriesAndFilesPaths,
 } from ".";
 import { normalizeOptions } from "../options/options.utils";
@@ -21,9 +20,8 @@ export const createAllDirectoriesAndFilesFromTemplate = async (
 ): Promise<void> => {
   options = normalizeOptions(options, cfftFolderPath) as Options;
 
-  const templatePath = createPath(options.templatePath, currentFolderPath);
-
-  const dirPath = createPath(options.dirPath, currentFolderPath);
+  const templatePath = options.templatePath;
+  const dirPath = options.dirPath;
   const fileName = options.fileName;
 
   await createDirectory(dirPath);

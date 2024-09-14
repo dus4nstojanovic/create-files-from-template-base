@@ -12,17 +12,6 @@ import {
 import { onFileCreatedHook } from "./files.hooks";
 
 /**
- * Adjusts the provided path
- * @param pathArg The path to be adjusted
- * @param currentFolderPath The current context path to the folder
- * @returns An absolute path if it starts with ./ or ../, or the relative path if it starts with /
- */
-export const createPath = (pathArg: string, currentFolderPath: string) =>
-  pathArg.startsWith(path.sep)
-    ? pathArg
-    : path.join(currentFolderPath, ...pathArg.split(path.sep));
-
-/**
  * Gets paths of directory's items
  * @param dirPath The directory path (parent)
  * @returns Paths of directories and files
