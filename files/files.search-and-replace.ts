@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { SearchAndReplaceItem } from "../config";
 import { readFileContent } from "./files.utils";
 import Logger from "../logger";
-import path from "path";
 import {
   DEFAULT_REPLACE_TEXT_WITH_ORDER,
   DEFAULT_SEARCH_AND_REPLACE_ORDER,
@@ -64,11 +63,9 @@ Replaces file content parts using the provided SearchAndReplace items.
 */
 export const replaceSearchItems = async ({
   searchAndReplaceItems,
-  configDir,
   fileContent,
 }: {
   searchAndReplaceItems: SearchAndReplaceItem[];
-  configDir: string;
   fileContent: string;
 }) => {
   for (let {
@@ -82,9 +79,7 @@ export const replaceSearchItems = async ({
     if (ignoreCase) flags += "i";
 
     if (injectFile) {
-      const injectFilePath = path.join(configDir, replace);
-
-      replace = await readFileContent(injectFilePath);
+      replace = await readFileContent(replace);
     }
 
     fileContent = fileContent.replace(new RegExp(search, flags), replace);

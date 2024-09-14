@@ -46,18 +46,16 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
   });
 
   it("should createAllDirectoriesAndFilesFromTemplate execute without errors", async () => {
-    await createAllDirectoriesAndFilesFromTemplate(
-      args.dirPath,
-      { ...args },
-      ""
-    );
+    await createAllDirectoriesAndFilesFromTemplate("dir-path", { ...args }, "");
     expect(FilesUtils.isDirectory).toHaveBeenCalledWith("template-dir");
-    expect(FilesUtils.createDirectory).toHaveBeenCalledWith("test-dir");
+    expect(FilesUtils.createDirectory).toHaveBeenCalledWith(
+      "dir-path/test-dir"
+    );
     expect(
       FilesUtils.createFileOrDirectoryFromTemplate
     ).toHaveBeenNthCalledWith(1, {
       configDir: "path",
-      dirPath: "test-dir",
+      dirPath: "dir-path/test-dir",
       fileName: "test-file",
       fileNameTextToBeReplaced: "",
       hooksPath: "",
@@ -74,7 +72,7 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
       FilesUtils.createFileOrDirectoryFromTemplate
     ).toHaveBeenNthCalledWith(2, {
       configDir: "path",
-      dirPath: "test-dir",
+      dirPath: "dir-path/test-dir",
       fileName: "test-file",
       fileNameTextToBeReplaced: "",
       hooksPath: "",

@@ -141,7 +141,6 @@ const createFileFromTemplate = async ({
   fileNameTextToBeReplaced,
   searchAndReplaceSeparator,
   searchAndReplace,
-  configDir,
   hooksPath,
 }: Options): Promise<void> => {
   const { filePath } = createFilePathAndNameFromTemplate({
@@ -159,12 +158,11 @@ const createFileFromTemplate = async ({
     searchAndReplaceSeparator,
     shouldReplaceFileContent,
     searchAndReplace,
-    configDir,
   });
 
   await createFileAndWriteContent(filePath, fileContent);
 
-  onFileCreatedHook({ configDir, hooksPath, filePath, templatePath });
+  onFileCreatedHook({ hooksPath, filePath, templatePath });
 
   Logger.info(`${filePath} created!`);
 };
@@ -176,7 +174,6 @@ const getFileContentAndSearchAndReplace = async ({
   searchAndReplaceSeparator,
   shouldReplaceFileContent,
   searchAndReplace,
-  configDir,
 }: Pick<
   Options,
   | "templatePath"
@@ -185,7 +182,6 @@ const getFileContentAndSearchAndReplace = async ({
   | "searchAndReplaceSeparator"
   | "shouldReplaceFileContent"
   | "searchAndReplace"
-  | "configDir"
 >): Promise<string> => {
   let fileContent = await readFileContent(templatePath);
 
@@ -200,7 +196,6 @@ const getFileContentAndSearchAndReplace = async ({
 
   fileContent = await replaceSearchItems({
     searchAndReplaceItems,
-    configDir,
     fileContent,
   });
 

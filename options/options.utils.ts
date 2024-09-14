@@ -44,6 +44,12 @@ export const normalizeOptions = (
     options.templatePath = normalizeIfExists(options.templatePath);
     options.hooksPath = normalizeIfExists(options.hooksPath);
     options.configDir = normalizeIfExists(options.configDir);
+
+    options?.searchAndReplace?.forEach((sr) => {
+      if (sr.injectFile) {
+        sr.replace = normalizeIfExists(sr.replace) || "";
+      }
+    });
   }
 
   return options;
