@@ -21,8 +21,17 @@ import path from "path";
 export const normalizeOptions = (
   options: Partial<Options | ConfigTemplateOptions>
 ) => {
-  const normalizeIfExists = (value: string | undefined) =>
-    value ? path.normalize(value) : value;
+  const normalizeIfExists = (value: string | undefined) => {
+    if (!value) return value;
+
+    value = path.normalize(value);
+
+    if (value.startsWith(path.sep)) {
+      value = `.${value}`;
+    }
+
+    return value;
+  };
 
   if (options) {
     options.dirPath = normalizeIfExists(options.dirPath);
