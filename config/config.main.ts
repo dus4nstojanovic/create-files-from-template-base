@@ -5,6 +5,7 @@ import {
   DEFAULT_CONFIG,
   DEMO_INFO,
   findConfig,
+  normalizeConfigPaths,
 } from ".";
 import { createDirectory, createFileAndWriteContent } from "../files";
 import Logger from "../logger";
@@ -43,7 +44,9 @@ export const getOrCreateConfig = async ({
 
       const cfftTemplatesFolderPath = path.join(
         cfftFolderPath,
-        DEFAULT_CONFIG.templates[0].options.templatePath as string
+        path.normalize(
+          DEFAULT_CONFIG.templates[0].options.templatePath as string
+        )
       );
 
       await createDirectory(cfftTemplatesFolderPath);
@@ -64,12 +67,17 @@ export const getOrCreateConfig = async ({
         `⚙️  .cfft.templates directory has been created: '${path.resolve(".")}'`
       );
 
-      return { config: await findConfig(currentFolderPath), created: true };
+      config = await findConfig(currentFolderPath);
+      config = normalizeConfigPaths(config);
+
+      return { config, created: true };
     } catch (e) {
       Logger.error("Error creating config file");
       throw e;
     }
   }
+
+  config = normalizeConfigPaths(config);
 
   return { config, created: false };
 };

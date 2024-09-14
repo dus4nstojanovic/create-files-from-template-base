@@ -6,6 +6,7 @@ import {
   createPath,
   getInnerDirectoriesAndFilesPaths,
 } from ".";
+import { normalizeOptions } from "../options/options.utils";
 
 /**
  * Creates all directories and files using the provided options
@@ -16,6 +17,8 @@ export const createAllDirectoriesAndFilesFromTemplate = async (
   currentFolderPath: string,
   options: Options
 ): Promise<void> => {
+  options = normalizeOptions(options) as Options;
+
   const templatePath = createPath(options.templatePath, currentFolderPath);
 
   const dirPath = createPath(options.dirPath, currentFolderPath);

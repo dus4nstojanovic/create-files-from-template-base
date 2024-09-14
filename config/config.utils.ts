@@ -2,6 +2,7 @@ import fs from "fs";
 import path, { resolve } from "path";
 import { promisify } from "util";
 import { Config, CONFIG_FILE_NAME } from ".";
+import { normalizeOptions } from "../options/options.utils";
 
 /**
  * Searches for the configuration file. If the file isn't found, searches in the parent directory
@@ -64,4 +65,21 @@ export const validateConfig = (config: Config) => {
       }
     });
   }
+};
+
+/**
+ * Normalizes file paths in the configuration object by applying `normalizeOptions`
+ * to each template's options.
+ *
+ * @param {Config} config - The configuration object containing templates that need path normalization.
+ * @returns {Config} The configuration object with normalized paths for each template's options.
+ */
+export const normalizeConfigPaths = (config: Config): Config => {
+  config?.templates?.forEach((template) => {
+    if (template.options) {
+      template.options = normalizeOptions(template.options);
+    }
+  });
+
+  return config;
 };
