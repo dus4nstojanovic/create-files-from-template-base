@@ -50,7 +50,11 @@ describe("createAllDirectoriesAndFilesFromTemplate", () => {
   });
 
   it("should createAllDirectoriesAndFilesFromTemplate execute without errors", async () => {
-    await createAllDirectoriesAndFilesFromTemplate(args.dirPath, { ...args });
+    await createAllDirectoriesAndFilesFromTemplate(
+      args.dirPath,
+      { ...args },
+      ""
+    );
 
     expect(FilesUtils.createPath).toHaveBeenNthCalledWith(
       1,

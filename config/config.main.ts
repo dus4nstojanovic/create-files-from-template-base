@@ -14,6 +14,7 @@ import path from "path";
 /**
  * Parses the existing cfft.config.json configuration or creates it if it doesn't exist
  * @param currentFolderPath The current context path to the folder
+ * @param cfftFolderPath The current path to the folder where the cfft.config.json resides
  * @returns The parsed configuration configuration object
  */
 export const getOrCreateConfig = async ({
@@ -68,7 +69,7 @@ export const getOrCreateConfig = async ({
       );
 
       config = await findConfig(currentFolderPath);
-      config = normalizeConfigPaths(config);
+      config = normalizeConfigPaths(config, cfftFolderPath);
 
       return { config, created: true };
     } catch (e) {
@@ -77,7 +78,7 @@ export const getOrCreateConfig = async ({
     }
   }
 
-  config = normalizeConfigPaths(config);
+  config = normalizeConfigPaths(config, cfftFolderPath);
 
   return { config, created: false };
 };

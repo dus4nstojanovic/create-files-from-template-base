@@ -8,6 +8,7 @@ import path from "path";
  * according to the operating system's file path rules using `path.normalize`.
  *
  * @param {Partial<Options | ConfigTemplateOptions>} options - The options object containing paths that need normalization.
+ * @param {string} cfftFolderPath The current path to the folder where the cfft.config.json resides
  * @returns {Partial<Options | ConfigTemplateOptions>} The options object with normalized paths.
  *
  * The following fields are normalized if they exist:
@@ -19,15 +20,20 @@ import path from "path";
  * If any of these fields are undefined, they will remain unchanged.
  */
 export const normalizeOptions = (
-  options: Partial<Options | ConfigTemplateOptions>
+  options: Partial<Options | ConfigTemplateOptions>,
+  cfftFolderPath: string
 ) => {
   const normalizeIfExists = (value: string | undefined) => {
     if (!value) return value;
 
     value = path.normalize(value);
 
-    if (value.startsWith(path.sep)) {
-      value = `.${value}`;
+    if (
+      path.isAbsolute(value) &&
+      cfftFolderPath &&
+      value.startsWith(path.sep)
+    ) {
+      value = path.join(cfftFolderPath, value);
     }
 
     return value;

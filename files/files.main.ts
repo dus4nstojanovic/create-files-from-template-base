@@ -12,12 +12,14 @@ import { normalizeOptions } from "../options/options.utils";
  * Creates all directories and files using the provided options
  * @param currentFolderPath The current context path to the folder
  * @param options The options for the files and folders creation
+ * @param {string} cfftFolderPath The current path to the folder where the cfft.config.json resides
  */
 export const createAllDirectoriesAndFilesFromTemplate = async (
   currentFolderPath: string,
-  options: Options
+  options: Options,
+  cfftFolderPath: string
 ): Promise<void> => {
-  options = normalizeOptions(options) as Options;
+  options = normalizeOptions(options, cfftFolderPath) as Options;
 
   const templatePath = createPath(options.templatePath, currentFolderPath);
 

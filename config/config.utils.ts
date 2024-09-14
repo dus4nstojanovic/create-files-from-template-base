@@ -72,12 +72,16 @@ export const validateConfig = (config: Config) => {
  * to each template's options.
  *
  * @param {Config} config - The configuration object containing templates that need path normalization.
+ * @param {string} cfftFolderPath The current path to the folder where the cfft.config.json resides
  * @returns {Config} The configuration object with normalized paths for each template's options.
  */
-export const normalizeConfigPaths = (config: Config): Config => {
+export const normalizeConfigPaths = (
+  config: Config,
+  cfftFolderPath: string
+): Config => {
   config?.templates?.forEach((template) => {
     if (template.options) {
-      template.options = normalizeOptions(template.options);
+      template.options = normalizeOptions(template.options, cfftFolderPath);
     }
   });
 
