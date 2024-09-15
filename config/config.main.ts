@@ -19,7 +19,7 @@ import path from "path";
  */
 export const getOrCreateConfig = async ({
   currentFolderPath,
-  cfftFolderPath = currentFolderPath,
+  cfftFolderPath,
 }: {
   currentFolderPath: string;
   cfftFolderPath?: string;
@@ -30,6 +30,10 @@ export const getOrCreateConfig = async ({
   let config = await findConfig(currentFolderPath);
 
   if (!config) {
+    if (!cfftFolderPath) {
+      cfftFolderPath = currentFolderPath;
+    }
+
     try {
       const cfftPath = path.join(cfftFolderPath, CONFIG_FILE_NAME);
       await createFileAndWriteContent(
@@ -69,7 +73,7 @@ export const getOrCreateConfig = async ({
       );
 
       config = await findConfig(currentFolderPath);
-      config = normalizeConfigPaths(config, cfftFolderPath);
+      config = normalizeConfigPaths(config);
 
       return { config, created: true };
     } catch (e) {
@@ -78,7 +82,7 @@ export const getOrCreateConfig = async ({
     }
   }
 
-  config = normalizeConfigPaths(config, cfftFolderPath);
+  config = normalizeConfigPaths(config);
 
   return { config, created: false };
 };
