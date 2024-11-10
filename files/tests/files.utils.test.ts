@@ -305,4 +305,141 @@ describe("createFileOrDirectoryFromTemplate", () => {
       );
     }
   });
+
+  const testShouldConvertCaseCorrectly = async (
+    text: string,
+    expectedText: string
+  ) => {
+    jest.spyOn(fs, "readFile").mockImplementation((path, callback: any) => {
+      callback(null, text);
+    });
+
+    jest.spyOn(fs, "lstatSync").mockImplementation(
+      (path) =>
+        ({
+          isDirectory: jest.fn(() => false),
+        } as any)
+    );
+
+    const testArgs: typeof args = {
+      ...args,
+      shouldReplaceFileContent: true,
+    };
+
+    await createFileOrDirectoryFromTemplate(testArgs);
+
+    expect(fs.readFile).toHaveBeenCalledWith(
+      testArgs.templatePath,
+      expect.anything()
+    );
+
+    expect(fs.writeFile).toHaveBeenCalledWith(
+      `test-dir/template-dir`,
+      expectedText,
+      expect.any(Function)
+    );
+  };
+
+  it("should convert case correctly - CAMEL_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, CAMEL_CASE).route;",
+      "const route = routes.FOR_SITEMAP.paramCase.route;"
+    );
+  });
+
+  it("should convert case correctly - SNAKE_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, SNAKE_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param_case.route;"
+    );
+  });
+
+  it("should convert case correctly - PASCAL_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, PASCAL_CASE).route;",
+      "const route = routes.FOR_SITEMAP.ParamCase.route;"
+    );
+  });
+
+  it("should convert case correctly - DOT_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, DOT_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param.case.route;"
+    );
+  });
+
+  it("should convert case correctly - PATH_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, PATH_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param/case.route;"
+    );
+  });
+
+  it("should convert case correctly - TEXT_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, TEXT_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param case.route;"
+    );
+  });
+
+  it("should convert case correctly - SENTENCE_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, SENTENCE_CASE).route;",
+      "const route = routes.FOR_SITEMAP.Param case.route;"
+    );
+  });
+
+  it("should convert case correctly - HEADER_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, HEADER_CASE).route;",
+      "const route = routes.FOR_SITEMAP.Param Case.route;"
+    );
+  });
+
+  it("should convert case correctly - LOWER_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(paRam-case, LOWER_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param-case.route;"
+    );
+  });
+
+  it("should convert case correctly - UPPER_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, UPPER_CASE).route;",
+      "const route = routes.FOR_SITEMAP.PARAM-CASE.route;"
+    );
+  });
+
+  it("should convert case correctly - KEBAB_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(param-case, KEBAB_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param-case.route;"
+    );
+  });
+
+  it("should convert case correctly - UPPER_SNAKE_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(ParamCase, UPPER_SNAKE_CASE).route;",
+      "const route = routes.FOR_SITEMAP.PARAM_CASE.route;"
+    );
+  });
+
+  it("should convert case correctly - LOWER_SNAKE_CASE", async () => {
+    await testShouldConvertCaseCorrectly(
+      "const route = routes.FOR_SITEMAP.#(ParamCase, LOWER_SNAKE_CASE).route;",
+      "const route = routes.FOR_SITEMAP.param_case.route;"
+    );
+  });
 });
+
+// console.log(jsConvert.toCamelCase('param-case')); // paramCase
+// console.log(jsConvert.toSnakeCase('param-case')); // param_case
+// console.log(jsConvert.toPascalCase('param-case')); // ParamCase
+// console.log(jsConvert.toDotCase('param-case')); // param.case
+// console.log(jsConvert.toPathCase('param-case')); // param/case
+// console.log(jsConvert.toTextCase('param-case')); // param case
+// console.log(jsConvert.toSentenceCase('param-case')); // Param case
+// console.log(jsConvert.toHeaderCase('param-case')); // Param Case
+// console.log(jsConvert.toLowerCase('param-case')); // param-case
+// console.log(jsConvert.toUpperCase('param-case')); // PARAM-CASE
+// console.log(jsConvert.toKebabCase('param-case')); // param-case

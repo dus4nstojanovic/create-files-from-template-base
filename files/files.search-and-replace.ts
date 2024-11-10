@@ -7,6 +7,7 @@ import {
   DEFAULT_SEARCH_AND_REPLACE_ORDER,
 } from "../constants";
 import { Options } from "../options";
+import { CaseOption, convertToSpecificCase } from "./files.case-converter";
 
 /**
 Creates SearchAndReplaceItem[] array from the textToBeReplaced, replaceTextWith and other search and replace items, sorting them by orders
@@ -125,4 +126,17 @@ export const replaceDateTime = (text: string): string => {
   return text.replace(pattern, (match, dateTimeNowFormat) =>
     format(dateNow, dateTimeNowFormat)
   );
+};
+
+export const convertCases = (text: string): string => {
+  const pattern = /#\(([^,]+),\s*([^)]+)\)/g;
+
+  const result = text.replace(
+    pattern,
+    (_, textToModify: string, textCase: string) => {
+      return convertToSpecificCase(textToModify, textCase as CaseOption);
+    }
+  );
+
+  return result;
 };

@@ -8,6 +8,7 @@ import {
   replaceEnvVariables,
   replaceDateTime,
   createSearchAndReplaceItemsFromArgs,
+  convertCases,
 } from "./files.search-and-replace";
 import { onFileCreatedHook } from "./files.hooks";
 
@@ -202,6 +203,8 @@ const getFileContentAndSearchAndReplace = async ({
   fileContent = replaceEnvVariables(fileContent);
 
   fileContent = replaceDateTime(fileContent);
+
+  fileContent = convertCases(fileContent);
 
   return fileContent;
 };
