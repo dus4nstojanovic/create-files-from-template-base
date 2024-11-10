@@ -430,6 +430,7 @@ describe("createFileOrDirectoryFromTemplate", () => {
       "const route = routes.FOR_SITEMAP.param_case.route;"
     );
   });
+
   it("should convert multiple cases correctly", async () => {
     await testShouldConvertCaseCorrectly(
       `
@@ -467,6 +468,37 @@ describe("createFileOrDirectoryFromTemplate", () => {
       const route12 = routes.FOR_SITEMAP.PARAM_CASE.route;
       const route13 = routes.FOR_SITEMAP.param_case.route;
       // END
+      `
+    );
+  });
+
+  it("should allow case insensitive options", async () => {
+    await testShouldConvertCaseCorrectly(
+      `
+      const route1 = routes.FOR_SITEMAP.#(param-case, PASCAL_CASE).route;
+      const route2 = routes.FOR_SITEMAP.#(param-case, PASCALCASE).route;
+      const route3 = routes.FOR_SITEMAP.#(param-case, pascalcase).route;
+      const route4 = routes.FOR_SITEMAP.#(param-case, PascalCase).route;
+      const route5 = routes.FOR_SITEMAP.#(param-case, pascalCase).route;
+      const route6 = routes.FOR_SITEMAP.#(param-case, pascal.Case).route;
+      const route7 = routes.FOR_SITEMAP.#(param-case, pascal/case).route;
+      const route8 = routes.FOR_SITEMAP.#(param-case, pascal\case).route;
+      const route9 = routes.FOR_SITEMAP.#(param-case, PASCAL-case).route;
+      const route10 = routes.FOR_SITEMAP.#(param-case, PASCAL case).route;
+      const route11 = routes.FOR_SITEMAP.#(param-case, pascal case).route;
+      `,
+      `
+      const route1 = routes.FOR_SITEMAP.ParamCase.route;
+      const route2 = routes.FOR_SITEMAP.ParamCase.route;
+      const route3 = routes.FOR_SITEMAP.ParamCase.route;
+      const route4 = routes.FOR_SITEMAP.ParamCase.route;
+      const route5 = routes.FOR_SITEMAP.ParamCase.route;
+      const route6 = routes.FOR_SITEMAP.ParamCase.route;
+      const route7 = routes.FOR_SITEMAP.ParamCase.route;
+      const route8 = routes.FOR_SITEMAP.ParamCase.route;
+      const route9 = routes.FOR_SITEMAP.ParamCase.route;
+      const route10 = routes.FOR_SITEMAP.ParamCase.route;
+      const route11 = routes.FOR_SITEMAP.ParamCase.route;
       `
     );
   });

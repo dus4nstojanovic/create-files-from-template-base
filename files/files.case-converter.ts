@@ -13,23 +13,27 @@ import {
 } from "js-convert-case";
 
 export enum CaseOption {
-  CAMEL_CASE = "CAMEL_CASE",
-  SNAKE_CASE = "SNAKE_CASE",
-  PASCAL_CASE = "PASCAL_CASE",
-  DOT_CASE = "DOT_CASE",
-  PATH_CASE = "PATH_CASE",
-  TEXT_CASE = "TEXT_CASE",
-  SENTENCE_CASE = "SENTENCE_CASE",
-  HEADER_CASE = "HEADER_CASE",
-  LOWER_CASE = "LOWER_CASE",
-  UPPER_CASE = "UPPER_CASE",
-  KEBAB_CASE = "KEBAB_CASE",
-  UPPER_SNAKE_CASE = "UPPER_SNAKE_CASE",
-  LOWER_SNAKE_CASE = "LOWER_SNAKE_CASE",
+  CAMEL_CASE = "camelcase",
+  SNAKE_CASE = "snakecase",
+  PASCAL_CASE = "pascalcase",
+  DOT_CASE = "dotcase",
+  PATH_CASE = "pathcase",
+  TEXT_CASE = "textcase",
+  SENTENCE_CASE = "sentencecase",
+  HEADER_CASE = "headercase",
+  LOWER_CASE = "lowercase",
+  UPPER_CASE = "uppercase",
+  KEBAB_CASE = "kebabcase",
+  UPPER_SNAKE_CASE = "uppersnakecase",
+  LOWER_SNAKE_CASE = "lowersnakecase",
 }
 
-export const convertToSpecificCase = (text: string, option: CaseOption) => {
-  switch (option) {
+const getCaseOption = (option: string): CaseOption =>
+  option.replace(/[ \/\\_\-\.]/g, "")?.toLowerCase() as CaseOption;
+export const convertToSpecificCase = (text: string, option: string) => {
+  const caseOption = getCaseOption(option);
+
+  switch (caseOption) {
     case CaseOption.CAMEL_CASE:
       return toCamelCase(text);
     case CaseOption.SNAKE_CASE:
