@@ -431,15 +431,3 @@ describe("createFileOrDirectoryFromTemplate", () => {
     );
   });
 });
-
-// console.log(jsConvert.toCamelCase('param-case')); // paramCase
-// console.log(jsConvert.toSnakeCase('param-case')); // param_case
-// console.log(jsConvert.toPascalCase('param-case')); // ParamCase
-// console.log(jsConvert.toDotCase('param-case')); // param.case
-// console.log(jsConvert.toPathCase('param-case')); // param/case
-// console.log(jsConvert.toTextCase('param-case')); // param case
-// console.log(jsConvert.toSentenceCase('param-case')); // Param case
-// console.log(jsConvert.toHeaderCase('param-case')); // Param Case
-// console.log(jsConvert.toLowerCase('param-case')); // param-case
-// console.log(jsConvert.toUpperCase('param-case')); // PARAM-CASE
-// console.log(jsConvert.toKebabCase('param-case')); // param-case

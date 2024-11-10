@@ -55,7 +55,7 @@ export const convertToSpecificCase = (text: string, option: CaseOption) => {
     case CaseOption.UPPER_SNAKE_CASE:
       return toSnakeCase(text).toUpperCase();
     case CaseOption.LOWER_SNAKE_CASE:
-      return toSnakeCase(text).toUpperCase();
+      return toSnakeCase(text).toLowerCase();
     default:
       return text;
   }
