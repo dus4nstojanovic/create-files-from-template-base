@@ -430,4 +430,44 @@ describe("createFileOrDirectoryFromTemplate", () => {
       "const route = routes.FOR_SITEMAP.param_case.route;"
     );
   });
+  it("should convert multiple cases correctly", async () => {
+    await testShouldConvertCaseCorrectly(
+      `
+      // START
+      const route1 = routes.FOR_SITEMAP.#(param-case, CAMEL_CASE).route;
+      const route2 = routes.FOR_SITEMAP.#(param-case, SNAKE_CASE).route;
+      const route3 = routes.FOR_SITEMAP.#(param-case, PASCAL_CASE).route;
+      const route4 = routes.FOR_SITEMAP.#(param-case, DOT_CASE).route;
+      const route5 = routes.FOR_SITEMAP.#(param-case, PATH_CASE).route;
+      const route6 = routes.FOR_SITEMAP.#(param-case, TEXT_CASE).route;
+      // MIDDLE
+      const route7 = routes.FOR_SITEMAP.#(param-case, SENTENCE_CASE).route;
+      const route8 = routes.FOR_SITEMAP.#(param-case, HEADER_CASE).route;
+      const route9 = routes.FOR_SITEMAP.#(paRam-case, LOWER_CASE).route;
+      const route10 = routes.FOR_SITEMAP.#(param-case, UPPER_CASE).route;
+      const route11 = routes.FOR_SITEMAP.#(param-case, KEBAB_CASE).route;
+      const route12 = routes.FOR_SITEMAP.#(ParamCase, UPPER_SNAKE_CASE).route;
+      const route13 = routes.FOR_SITEMAP.#(ParamCase, LOWER_SNAKE_CASE).route;
+      // END
+      `,
+      `
+      // START
+      const route1 = routes.FOR_SITEMAP.paramCase.route;
+      const route2 = routes.FOR_SITEMAP.param_case.route;
+      const route3 = routes.FOR_SITEMAP.ParamCase.route;
+      const route4 = routes.FOR_SITEMAP.param.case.route;
+      const route5 = routes.FOR_SITEMAP.param/case.route;
+      const route6 = routes.FOR_SITEMAP.param case.route;
+      // MIDDLE
+      const route7 = routes.FOR_SITEMAP.Param case.route;
+      const route8 = routes.FOR_SITEMAP.Param Case.route;
+      const route9 = routes.FOR_SITEMAP.param-case.route;
+      const route10 = routes.FOR_SITEMAP.PARAM-CASE.route;
+      const route11 = routes.FOR_SITEMAP.param-case.route;
+      const route12 = routes.FOR_SITEMAP.PARAM_CASE.route;
+      const route13 = routes.FOR_SITEMAP.param_case.route;
+      // END
+      `
+    );
+  });
 });
