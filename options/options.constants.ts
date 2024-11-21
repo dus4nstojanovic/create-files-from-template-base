@@ -1,4 +1,4 @@
-import { SearchAndReplaceItem } from "../config";
+import { SearchAndReplaceItem, IfStatementItem } from "../config";
 
 export interface Options {
   template: string;
@@ -12,6 +12,7 @@ export interface Options {
   replaceTextWith: string;
   searchAndReplaceSeparator: string;
   searchAndReplace: SearchAndReplaceItem[];
+  ifStatements?: IfStatementItem[];
   hooksPath: string;
   configDir: string;
 }

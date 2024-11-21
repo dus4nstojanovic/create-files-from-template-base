@@ -11,6 +11,7 @@ import {
   convertCases,
 } from "./files.search-and-replace";
 import { onFileCreatedHook } from "./files.hooks";
+import { replaceIfStatements } from "./files.conditions";
 
 /**
  * Gets paths of directory's items
@@ -131,39 +132,14 @@ const createDirectoryFromTemplate = async (args: Options): Promise<void> => {
   );
 };
 
-const createFileFromTemplate = async ({
-  templatePath,
-  dirPath,
-  shouldReplaceFileContent,
-  replaceTextWith,
-  textToBeReplaced,
-  fileName,
-  shouldReplaceFileName,
-  fileNameTextToBeReplaced,
-  searchAndReplaceSeparator,
-  searchAndReplace,
-  hooksPath,
-}: Options): Promise<void> => {
-  const { filePath } = createFilePathAndNameFromTemplate({
-    templatePath,
-    shouldReplaceFileName,
-    fileNameTextToBeReplaced,
-    dirPath,
-    fileName,
-  });
+const createFileFromTemplate = async (options: Options): Promise<void> => {
+  const { filePath } = createFilePathAndNameFromTemplate(options);
 
-  const fileContent = await getFileContentAndSearchAndReplace({
-    templatePath,
-    textToBeReplaced,
-    replaceTextWith,
-    searchAndReplaceSeparator,
-    shouldReplaceFileContent,
-    searchAndReplace,
-  });
+  const fileContent = await getFileContentAndSearchAndReplace(options);
 
   await createFileAndWriteContent(filePath, fileContent);
 
-  onFileCreatedHook({ hooksPath, filePath, templatePath });
+  onFileCreatedHook({ ...options, filePath });
 
   Logger.info(`${filePath} created!`);
 };
@@ -175,6 +151,7 @@ const getFileContentAndSearchAndReplace = async ({
   searchAndReplaceSeparator,
   shouldReplaceFileContent,
   searchAndReplace,
+  ifStatements,
 }: Pick<
   Options,
   | "templatePath"
@@ -183,6 +160,7 @@ const getFileContentAndSearchAndReplace = async ({
   | "searchAndReplaceSeparator"
   | "shouldReplaceFileContent"
   | "searchAndReplace"
+  | "ifStatements"
 >): Promise<string> => {
   let fileContent = await readFileContent(templatePath);
 
@@ -194,6 +172,8 @@ const getFileContentAndSearchAndReplace = async ({
     searchAndReplaceSeparator,
     searchAndReplace,
   });
+
+  fileContent = replaceIfStatements(ifStatements, fileContent);
 
   fileContent = await replaceSearchItems({
     searchAndReplaceItems,

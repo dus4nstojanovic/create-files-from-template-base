@@ -10,6 +10,11 @@ export type SearchAndReplaceItem = {
   order?: number;
 };
 
+export interface IfStatementItem {
+  option: string;
+  order: number;
+}
+
 export type ConfigOnlyOptions = {
   searchAndReplace: SearchAndReplaceItem[];
   hooksPath: string;
