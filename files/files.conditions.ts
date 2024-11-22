@@ -3,24 +3,25 @@ export interface IfStatementItem {
   order: number;
 }
 
-/**
- * Processes a list of IfStatementItem objects to replace #IF occurrences in the input string.
- *
- * @param ifStatements - An array of IfStatementItem objects with `option` and `order` properties.
- * @param input - The input string to process.
- * @returns A string with all applicable #IF occurrences replaced in the specified order.
- */
 export const replaceIfStatements = (
   ifStatements: IfStatementItem[] | undefined,
   input: string
 ): string => {
-  if (!ifStatements?.length) return input;
+  if (!ifStatements?.length) {
+    // If no IfStatementItem provided, simply remove all #IF statements.
+    return removeAllIfStatements(input);
+  }
 
+  // Sort the IfStatementItem array by order.
   const sortedStatements = ifStatements.sort((a, b) => a.order - b.order);
 
+  // Replace matched #IF statements.
   sortedStatements.forEach(({ option }) => {
     input = replaceByIfStatementItem(option, input);
   });
+
+  // Remove any unmatched or leftover #IF statements.
+  input = removeAllIfStatements(input);
 
   return input;
 };
@@ -37,18 +38,26 @@ export const replaceByIfStatementItem = (
   matchingOption: string,
   input: string
 ): string => {
-  const pattern = /#IF\(((?:[^#]|#(?!IF))+?),\s*([^)]+)\)/g;
+  const pattern = /#IF\(([^,]+),\s*([^)]+)\)/g;
 
-  let result = input;
-  let match;
+  return input.replace(pattern, (match, content, option) => {
+    return option.trim() === matchingOption ? content.trim() : match;
+  });
+};
 
-  while ((match = pattern.exec(result)) !== null) {
-    const [fullMatch, content, option] = match;
+/**
+ * Removes all occurrences of "#IF(Content, OPTION)" from the input string,
+ * handling both multiline and inline cases. Also removes empty lines just before
+ * or after the #IF statement.
+ *
+ * @param input - The input string to process.
+ * @returns A string with all #IF occurrences removed, while preserving proper formatting.
+ */
+export const removeAllIfStatements = (input: string): string => {
+  const pattern = /#IF\(([^,]+),\s*([^)]+)\)/g;
 
-    if (option.trim() === matchingOption) {
-      result = result.replace(fullMatch, content.trim());
-    }
-  }
-
-  return result;
+  return input
+    .replace(pattern, "") // Remove #IF statements
+    .replace(/(^|\n)\s*\n/g, "\n") // Remove empty lines directly before or after a removed line
+    .trim();
 };

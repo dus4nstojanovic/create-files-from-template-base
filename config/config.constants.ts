@@ -15,13 +15,7 @@ export interface IfStatementItem {
   order: number;
 }
 
-export type ConfigOnlyOptions = {
-  searchAndReplace: SearchAndReplaceItem[];
-  hooksPath: string;
-};
-
-export type ConfigTemplateOptions = Omit<Options, "fileName" | "template"> &
-  ConfigOnlyOptions;
+export type ConfigTemplateOptions = Omit<Options, "fileName" | "template">;
 
 export type TemplateConfig = {
   name: string;

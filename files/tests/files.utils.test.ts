@@ -451,8 +451,7 @@ describe("createFileOrDirectoryFromTemplate", () => {
       const route13 = routes.FOR_SITEMAP.#(ParamCase, LOWER_SNAKE_CASE).route;
       // END
       `,
-      `
-      // START
+      `// START
       const route1 = routes.FOR_SITEMAP.paramCase.route;
       const route2 = routes.FOR_SITEMAP.param_case.route;
       const route3 = routes.FOR_SITEMAP.ParamCase.route;
@@ -467,8 +466,7 @@ describe("createFileOrDirectoryFromTemplate", () => {
       const route11 = routes.FOR_SITEMAP.param-case.route;
       const route12 = routes.FOR_SITEMAP.PARAM_CASE.route;
       const route13 = routes.FOR_SITEMAP.param_case.route;
-      // END
-      `
+      // END`
     );
   });
 
@@ -487,8 +485,7 @@ describe("createFileOrDirectoryFromTemplate", () => {
       const route10 = routes.FOR_SITEMAP.#(param-case, PASCAL case).route;
       const route11 = routes.FOR_SITEMAP.#(param-case, pascal case).route;
       `,
-      `
-      const route1 = routes.FOR_SITEMAP.ParamCase.route;
+      `const route1 = routes.FOR_SITEMAP.ParamCase.route;
       const route2 = routes.FOR_SITEMAP.ParamCase.route;
       const route3 = routes.FOR_SITEMAP.ParamCase.route;
       const route4 = routes.FOR_SITEMAP.ParamCase.route;
@@ -498,8 +495,7 @@ describe("createFileOrDirectoryFromTemplate", () => {
       const route8 = routes.FOR_SITEMAP.ParamCase.route;
       const route9 = routes.FOR_SITEMAP.ParamCase.route;
       const route10 = routes.FOR_SITEMAP.ParamCase.route;
-      const route11 = routes.FOR_SITEMAP.ParamCase.route;
-      `
+      const route11 = routes.FOR_SITEMAP.ParamCase.route;`
     );
   });
 });
