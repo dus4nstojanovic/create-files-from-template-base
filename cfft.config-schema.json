@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "defaultTemplateName": {
+      "type": "string",
+      "description": "Default template name to be used"
+    },
+    "templates": {
+      "type": "array",
+      "description": "List of template configurations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Template name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Text to be displayed next to the template name"
+          },
+          "options": {
+            "type": "object",
+            "description": "Template options",
+            "properties": {
+              "dirPath": {
+                "type": "string",
+                "description": "Path to the location where to generate files"
+              },
+              "templatePath": {
+                "type": "string",
+                "description": "Path to the specific template folder"
+              },
+              "shouldReplaceFileName": {
+                "type": "boolean",
+                "description": "Should or not extension replace a file name"
+              },
+              "fileNameTextToBeReplaced": {
+                "type": "string",
+                "description": "Which part of the file name should be replaced"
+              },
+              "shouldReplaceFileContent": {
+                "type": "boolean",
+                "description": "Should or not extension replace a file content"
+              },
+              "textToBeReplaced": {
+                "type": "string",
+                "description": "Text (or regex) to be replaced separated by a search and replace separator"
+              },
+              "replaceTextWith": {
+                "type": "string",
+                "description": "Text to be used for replacement separated by a separator"
+              },
+              "searchAndReplaceSeparator": {
+                "type": "string",
+                "description": "Custom separator for search and replace"
+              },
+              "searchAndReplace": {
+                "type": "array",
+                "description": "Add additional search and replace items through config (with extended options)",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "search": {
+                      "type": "string",
+                      "description": "Text (or regex) to be replaced"
+                    },
+                    "replace": {
+                      "type": "string",
+                      "description": "Text to be used for replacement - or path to the file when injectFile=true"
+                    },
+                    "ignoreCase": {
+                      "type": "boolean",
+                      "description": "Should ignore the letters case"
+                    },
+                    "injectFile": {
+                      "type": "boolean",
+                      "description": "Should inject a file content at the found placeholder"
+                    },
+                    "order": {
+                      "type": "integer",
+                      "description": "In which order to do the search and replace (lower order has precedence)"
+                    }
+                  },
+                  "required": ["search", "replace"]
+                }
+              }
+            },
+            "required": ["templatePath", "dirPath"]
+          }
+        },
+        "required": ["name", "options"]
+      }
+    }
+  },
+  "required": ["templates"]
+}
