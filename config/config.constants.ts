@@ -24,6 +24,7 @@ export type TemplateConfig = {
 };
 
 export type Config = {
+  $schema?: string;
   defaultTemplateName: string;
   templates: TemplateConfig[];
   path: string;
@@ -32,6 +33,8 @@ export type Config = {
 
 // This object is used for the default configuration in the cfft.config.json file
 export const DEFAULT_CONFIG: Omit<Config, "path" | "folder"> = {
+  $schema:
+    "https://dus4nstojanovic.github.io/create-files-from-template-base/cfft.config-schema.json",
   defaultTemplateName: "component",
   templates: [
     {
