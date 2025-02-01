@@ -4,95 +4,92 @@
   "properties": {
     "defaultTemplateName": {
       "type": "string",
-      "description": "Default template name to be used"
+      "description": "The default template name to use."
     },
     "templates": {
       "type": "array",
-      "description": "List of template configurations",
+      "description": "A list of template configurations.",
       "items": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "Template name"
+            "description": "The name of the template."
           },
           "description": {
             "type": "string",
-            "description": "Text to be displayed next to the template name"
+            "description": "A description displayed next to the template name."
           },
           "options": {
             "type": "object",
-            "description": "Template options",
+            "description": "Configuration options for the template.",
             "properties": {
               "dirPath": {
                 "type": "string",
-                "description": "Path to the location where to generate files"
+                "description": "The destination path where files should be generated."
               },
               "templatePath": {
                 "type": "string",
-                "description": "Path to the specific template folder"
+                "description": "The path to the template folder."
               },
               "shouldReplaceFileName": {
                 "type": "boolean",
-                "description": "Should or not extension replace a file name"
+                "description": "Indicates whether the extension should modify the file name."
               },
               "fileNameTextToBeReplaced": {
                 "type": "string",
-                "description": "Which part of the file name should be replaced"
+                "description": "The portion of the file name to be replaced."
               },
               "shouldReplaceFileContent": {
                 "type": "boolean",
-                "description": "Should or not extension replace a file content"
+                "description": "Indicates whether the extension should modify the file content."
               },
               "textToBeReplaced": {
                 "type": "string",
-                "description": "Text (or regex) to be replaced separated by a search and replace separator"
+                "description": "The text or regex pattern to replace, using a defined separator."
               },
               "replaceTextWith": {
                 "type": "string",
-                "description": "Text to be used for replacement separated by a separator"
+                "description": "The replacement text, using the same separator."
               },
               "searchAndReplaceSeparator": {
                 "type": "string",
-                "description": "Custom separator for search and replace"
+                "description": "The custom separator used for search and replace operations."
               },
               "searchAndReplace": {
                 "type": "array",
-                "description": "Add additional search and replace items through config (with extended options)",
+                "description": "Additional search and replace rules with extended options.",
                 "items": {
                   "type": "object",
                   "properties": {
                     "search": {
                       "type": "string",
-                      "description": "Text (or regex) to be replaced"
+                      "description": "The text or regex pattern to replace."
                     },
                     "replace": {
                       "type": "string",
-                      "description": "Text to be used for replacement - or path to the file when injectFile=true"
+                      "description": "The replacement text or the file path when 'injectFile' is enabled."
                     },
                     "ignoreCase": {
                       "type": "boolean",
-                      "description": "Should ignore the letters case"
+                      "description": "Indicates whether the search should be case-insensitive."
                     },
                     "injectFile": {
                       "type": "boolean",
-                      "description": "Should inject a file content at the found placeholder"
+                      "description": "Indicates whether the content of a file should be injected at the placeholder."
                     },
                     "order": {
                       "type": "integer",
-                      "description": "In which order to do the search and replace (lower order has precedence)"
+                      "description": "Defines the execution order of search and replace operations (lower values are executed first)."
                     }
                   },
                   "required": ["search", "replace"]
                 }
               }
-            },
-            "required": ["templatePath", "dirPath"]
+            }
           }
-        },
-        "required": ["name", "options"]
+        }
       }
     }
-  },
-  "required": ["templates"]
+  }
 }
